@@ -1,66 +1,88 @@
+package cifrado;
 
-import java.io.FileInputStream;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.security.Key;
-import java.security.MessageDigest;
-import java.util.Arrays;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Scanner;
 
-import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
-public class Cifrado {
-	
-  
-	//FUNCION QUE PIDE FICHERO Y UNA PASS(STRING) para cifrar fichero
-	public static byte[] cifrarFichero(String file, String password) throws FileNotFoundException{
-      	byte[] data= null;
-		
-      	//creamos fichero
-	File filec = new File("./src",file);
-      	//comprobamos si existe
-      	if (filec.exists()){
-			//generamos clave
-          	keygen(password);
-          	//obtenemos datos fichero
-          	getBytesFromFile(filec);
-          	//ciframos fichero
-          	
-        }else{
-          throw new FileNotFoundException();
-        }
-	//devolvemos fichero encriptado
-      	return data;
-    }
-  
-  	private static SecretKey keygen(String password){
-        SecretKey sKey = null;
-        int key_sice = 192;
-        try {
-			byte[] data = password.getBytes("UTF-8");
-             MessageDigest md = MessageDigest.getInstance("SHA-256");
-             byte[] hash = md.digest(data);
-             byte[] key = Arrays.copyOf(hash, key_sice/8);
-             sKey = new SecretKeySpec(key, "AES");
-		} catch (Exception ex) {
-             System.err.println("Error generant la clau:" + ex);
+public class MainEj2 {
+
+	public static void main(String[] args) {
+		byte[] cifrado;
+		byte[] descifrado;
+
+		String pass = "HOLA";
+		String file = "./src/cifrado/ok.txt";
+
+		try {
+			//ciframos el fichero
+			cifrado = Cifrado.encriptFile(file, pass);
+			SecretKey skey = Cifrado.keygen("HOLA");
+			//guardamos fichero
+			guardarFichero(file + ".aes", cifrado);
+
+			//parte 2
+			//
+			file.length();
+			System.out.println(file.substring(file.length()-4, file.length()));
+
+	      	//borramos fichero y guardamos con otro nombre
+
+
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-        return sKey;
+
 
 	}
-  	
-  	private static Byte[] getBytesFromFile(File file){
-    	byte[] bytesArray = new byte[(int) file.length()];
-     
-      	FileInputStream fis = new FileInputStream(file);
-  		fis.read(bytesArray); //read file into bytes[]
-  		fis.close();
-			
-  		return bytesArray;
-    }
-      
-    
+
+
+	public static
+
+
+
+	public static String leerFichero(String file) throws IOException{
+		BufferedReader lector = null;
+		String linea = "";
+
+		lector = new BufferedReader(new FileReader(file));
+
+		while ((linea += lector.readLine()) != null) {
+			linea += System.lineSeparator();
+
+		}
+		return linea;
+	}
+
+	public static void guardarFichero(String File, byte[] data){
+		InputStream origen = null;
+		OutputStream destino = null;
+		try {
+			destino = new FileOutputStream(File);
+
+			destino.write(data);
+
+		}catch (Exception e) {
+			System.out.println("gg");
+		}finally{
+			try {
+		        destino.close();
+			} catch (Exception e2) {
+				System.out.println("gg2");
+			}
+
+		}
+	}
 
 
 }
