@@ -1,4 +1,3 @@
-package cifrado;
 
 import java.security.Key;
 import java.security.MessageDigest;
@@ -18,10 +17,14 @@ public class descifrado {
 		byte[] decriptedData=null;
 
 		for (int i=0;i<=5000;i++){
-			key = keyGen(String.valueOf(i));
-			decriptedData = decriptData(encriptedData,key);
-
-			System.out.println(String.valueOf(i) + ": " + new String(decriptedData));
+		    try{
+    			key = keyGen(String.valueOf(i));
+    			decriptedData = decriptData(encriptedData,key);
+    
+    			System.out.println(String.valueOf(i) + ": " + new String(decriptedData));
+		    }catch (Exception e){
+		        
+		    }
 		}
 
 
@@ -47,12 +50,11 @@ public static SecretKey keyGen(String i){
 	public static byte[] decriptData(byte[] data, Key key) {
 		byte[] decriptedData = null;
 		try {
-			Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
+			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding ");
 
 			cipher.init(Cipher.DECRYPT_MODE, key);
 			decriptedData = cipher.doFinal(data);
 		} catch (Exception ex) {
-			System.err.println("Error descifrando: " + ex);
 		}
 		return decriptedData;
 	}
