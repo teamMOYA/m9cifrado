@@ -11,14 +11,14 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Cifrado {
-  	
+	
   
-	//FUNCION QUE PIDE FICHERO Y UNA PASS(STRING)
+	//FUNCION QUE PIDE FICHERO Y UNA PASS(STRING) para cifrar fichero
 	public static byte[] cifrarFichero(String file, String password) throws FileNotFoundException{
-      
       	byte[] data= null;
+		
       	//creamos fichero
-		File filec = new File("./src",file);
+	File filec = new File("./src",file);
       	//comprobamos si existe
       	if (filec.exists()){
 			//generamos clave
@@ -30,6 +30,7 @@ public class Cifrado {
         }else{
           throw new FileNotFoundException();
         }
+	//devolvemos fichero encriptado
       	return data;
     }
   
